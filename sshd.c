@@ -129,6 +129,10 @@ int allow_severity;
 int deny_severity;
 #endif /* LIBWRAP */
 
+#ifdef SOAAP
+#include "soaap.h"
+#endif
+
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
 #endif
@@ -661,6 +665,11 @@ privsep_preauth(Authctxt *authctxt)
 
 	if (use_privsep == PRIVSEP_ON)
 		box = ssh_sandbox_init(pmonitor);
+  
+#ifdef SOAAP
+  __soaap_create_ephemeral_sandbox("preauth");
+#endif
+
 	pid = fork();
 	if (pid == -1) {
 		fatal("fork of unprivileged child failed");
@@ -2089,6 +2098,10 @@ main(int ac, char **av)
 	} else if (compat20 && have_agent)
 		auth_conn = ssh_get_authentication_connection();
 
+#ifdef SOAAP
+  __soaap_sandboxed_region_start("preauth");
+#endif
+
 	/* perform the key exchange */
 	/* authenticate user and start session */
 	if (compat20) {
@@ -2098,7 +2111,12 @@ main(int ac, char **av)
 		do_ssh1_kex();
 		do_authentication(authctxt);
 	}
-	/*
+	
+#ifdef SOAAP
+  __soaap_sandboxed_region_end("preauth");
+#endif
+
+  /*
 	 * If we use privilege separation, the unprivileged child transfers
 	 * the current keystate and exits
 	 */
