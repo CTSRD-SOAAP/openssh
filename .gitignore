@@ -3,6 +3,8 @@
 *.log
 *.a
 *.status
+*.bc
+*.swp
 Makefile
 buildpkg.sh
 survey.sh
