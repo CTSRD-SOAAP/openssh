@@ -31,7 +31,9 @@
 
 #include "log.h"
 
+#ifdef
 #include "soaap.h"
+#endif
 
 /* Fatal messages.  This function never returns. */
 
@@ -46,4 +48,6 @@ _fatal(const char *fmt,...)
 	cleanup_exit(255);
 }
 
+#ifdef SOAAP
 __weak_reference2(_fatal, fatal);
+#endif

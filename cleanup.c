@@ -24,7 +24,9 @@
 
 #include "log.h"
 
+#ifdef SOAAP
 #include "soaap.h"
+#endif
 
 /* default implementation */
 void
@@ -33,4 +35,6 @@ _cleanup_exit(int i)
 	_exit(i);
 }
 
+#ifdef SOAAP
 __weak_reference2(_cleanup_exit, cleanup_exit);
+#endif
