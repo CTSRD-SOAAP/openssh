@@ -31,10 +31,12 @@
 
 #include "log.h"
 
+#include "soaap.h"
+
 /* Fatal messages.  This function never returns. */
 
 void
-fatal(const char *fmt,...)
+_fatal(const char *fmt,...)
 {
 	va_list args;
 
@@ -43,3 +45,5 @@ fatal(const char *fmt,...)
 	va_end(args);
 	cleanup_exit(255);
 }
+
+__weak_reference2(_fatal, fatal);

@@ -24,9 +24,13 @@
 
 #include "log.h"
 
+#include "soaap.h"
+
 /* default implementation */
 void
-cleanup_exit(int i)
+_cleanup_exit(int i)
 {
 	_exit(i);
 }
+
+__weak_reference2(_cleanup_exit, cleanup_exit);
